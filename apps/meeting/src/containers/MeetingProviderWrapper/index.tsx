@@ -4,6 +4,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import {
+  BackgroundBlurProvider,
   MeetingProvider,
   VoiceFocusProvider,
 } from 'amazon-chime-sdk-component-library-react';
@@ -17,7 +18,7 @@ import meetingConfig from '../../meetingConfig';
 import { useAppState } from '../../providers/AppStateProvider';
 
 const MeetingProviderWrapper: React.FC = () => {
-  const { isWebAudioEnabled } = useAppState();
+  const { isWebAudioEnabled, isBackgroundBlurEnabled } = useAppState();
 
   const meetingConfigValue = {
     ...meetingConfig,
@@ -47,17 +48,36 @@ const MeetingProviderWrapper: React.FC = () => {
     );
   };
 
-  const getMeetingProviderWrapperWithVF = () => {
+  const getMeetingProviderWrapperWithVF = (children: JSX.Element) => {
     return (
       <VoiceFocusProvider>
-        {getMeetingProviderWrapper()}
+        {children}
       </VoiceFocusProvider>
     );
   };
 
+  const getMeetingProviderWrapperWithBGBlur = (children: JSX.Element) => {
+    return (
+      <BackgroundBlurProvider>
+        {children}
+      </BackgroundBlurProvider>
+    );
+  };
+
+  const addWrappers = () : JSX.Element => {
+    let children = getMeetingProviderWrapper();
+    if (isWebAudioEnabled) {
+      children = getMeetingProviderWrapperWithVF(children);
+    }
+    if (isBackgroundBlurEnabled) {
+      children = getMeetingProviderWrapperWithBGBlur(children);
+    }
+    return children;
+  }
+
   return (
     <>
-      {isWebAudioEnabled ? getMeetingProviderWrapperWithVF() : getMeetingProviderWrapper()}
+      {addWrappers()}
     </>
   );
 };
