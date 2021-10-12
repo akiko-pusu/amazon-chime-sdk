@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 
 import React, { useContext, useState, ReactNode } from 'react';
-import { MeetingMode } from '../types';
+import { MeetingMode, Layout } from '../types';
 
 type Props = {
   children: ReactNode;
@@ -14,9 +14,11 @@ interface AppStateValue {
   theme: string;
   region: string;
   meetingMode: MeetingMode;
+  layout: Layout;
   toggleTheme: () => void;
   setAppMeetingInfo: (meetingId: string, name: string, region: string) => void;
   setMeetingMode: (meetingMode: MeetingMode) => void;
+  setLayout: (layout: Layout) => void;
 }
 
 const AppStateContext = React.createContext<AppStateValue | null>(null);
@@ -37,6 +39,7 @@ export function AppStateProvider({ children }: Props) {
   const [meetingId, setMeeting] = useState(query.get('meetingId') || '');
   const [region, setRegion] = useState(query.get('region') || '');
   const [meetingMode, setMeetingMode] = useState(MeetingMode.Attendee);
+  const [layout, setLayout] = useState(Layout.Gallery);
   const [localUserName, setLocalName] = useState('');
   const [theme, setTheme] = useState(() => {
     const storedTheme = localStorage.getItem('theme');
@@ -69,9 +72,11 @@ export function AppStateProvider({ children }: Props) {
     theme,
     region,
     meetingMode,
+    layout,
     toggleTheme,
     setAppMeetingInfo,
     setMeetingMode,
+    setLayout,
   };
 
   return (

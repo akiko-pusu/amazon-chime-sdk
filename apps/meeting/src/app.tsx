@@ -71,9 +71,7 @@ const Theme: React.FC = ({ children }) => {
 const MeetingModeSelector: React.FC = () => {
   const { meetingMode } = useAppState();
 
-  return (
-    <Meeting mode={meetingMode} />
-  );
+  return <Meeting mode={meetingMode} />;
 };
 
 export default App;
