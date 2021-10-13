@@ -26,7 +26,7 @@ const postLogConfig = {
   url: `${BASE_URL}logs`,
   logLevel: SDK_LOG_LEVELS.info,
 };
-const simulcastEnabled = true;
+
 const logger = new ConsoleLogger('SDK', LogLevel.INFO);
 export const priorityBasedPolicy = new VideoPriorityBasedPolicy(logger);
 
@@ -36,7 +36,6 @@ const config = {
   logLevel,
   postLogConfig,
   enableWebAudio,
-  simulcastEnabled,
   logger,
   videoDownlinkBandwidthPolicy: priorityBasedPolicy,
 };
